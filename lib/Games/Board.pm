@@ -33,7 +33,7 @@ This module provides a base class for representing board games.
 use strict;
 use warnings;
 
-our $VERSION = sprintf "%d.%03d", q$Revision: 1.5 $ =~ /(\d+)/g;
+our $VERSION = sprintf "%d.%03d", q$Revision: 1.6 $ =~ /(\d+)/g;
 
 =head1 METHODS
 
@@ -119,6 +119,24 @@ sub add_piece {
 =head1 TODO
 
 Lots.  First up: write a TODO list.
+
+=head1 SEE ALSO
+
+=over 
+
+=item *
+
+L<Games::Board::Piece>
+
+=item *
+
+L<Games::Board::Space>
+
+=item *
+
+L<Games::Board::Grid>
+
+=back
 
 =head1 AUTHORS
 

@@ -1,13 +1,13 @@
 MANIFEST			This list of files
-Makefile.PL
-META.yml
-
+CHANGES
 lib/Games/Board.pm
+lib/Games/Board/Grid.pm
 lib/Games/Board/Piece.pm
 lib/Games/Board/Space.pm
-lib/Games/Board/Grid.pm
-
+Makefile.PL
 t/board.t
-t/chess.t
+t/chess-custom.t
 t/chess-grid.t
+t/chess.t
 t/pod.t
+META.yml                                 Module meta-data (added by MakeMaker)

@@ -16,7 +16,7 @@ Games::Board::Grid -- a grid-shaped gameboard
 
   my $chess = Games::Board->new(size => 8);
 
-  my $rook = Games::Board::Piece->new(id => 'KR')->move(to => [7,7]);
+  my $rook = Games::Board::Piece->new(id => 'KR')->move(to => '7 7');
 
 =head1 DESCRIPTION
 
@@ -28,7 +28,7 @@ a right-angled grid.
 use strict;
 use warnings;
 
-our $VERSION = sprintf "%d.%03d", q$Revision: 1.2 $ =~ /(\d+)/g;
+our $VERSION = sprintf "%d.%03d", q$Revision: 1.3 $ =~ /(\d+)/g;
 
 =head1 METHODS
 
@@ -64,11 +64,12 @@ This method sets up the spaces on the board.
 sub init {
   my $board = shift;
 
-  $board->{spaces} = [];
+  $board->{spaces} = {};
 
   for my $x (0 .. ($board->{size}[0] - 1)) {
 	for my $y (0 .. ($board->{size}[1] - 1)) {
-	  $board->{spaces}->[$x][$y] = Games::Board::Grid::Space->new(id => [$x, $y], board => $board);
+	  my $id = $board->index2id([$x,$y]);
+	  $board->{spaces}{$id} = Games::Board::Grid::Space->new(id => $id, board => $board);
 	}
   }
 
@@ -84,12 +85,24 @@ sub size { (shift)->{size} }
 =item C<< id2index($id) >> 
 
 This method returns the grid location of an identified space, in the format
-C<[$x, $y]>.  It isn't implemented in Games::Board::Grid, and will croak if
-called.
+C<[$x, $y]>.  In Games::Board::Grid, the index C<[x,y]> becomes the id C<'x
+y'>.  Yeah, it's ugly, but it works.
+
+Reimplementing this method on a subclass can allow the use of idiomatic space
+identifiers on a grid.  (See, for example, the chess-custom.t test in this
+distribution.)
 
 =cut 
 
-sub id2index { croak "nobody bothered to implement this method!" }
+sub id2index { [ split(/ /,$_[1]) ] }
+
+=item C<< index2id($loc) >> 
+
+This method performs the same translation as C<id2index>, but in reverse.
+
+=cut 
+
+sub index2id { join(' ', @{$_[1]}) }
 
 =item C<< space($id) >>
 
@@ -102,9 +115,7 @@ sub space {
   my $board = shift;
   my $id    = shift;
 
-  return $board->space($board->id2index($id)) unless ref $id;
-
-  return $board->{spaces}[$id->[0]][$id->[1]];
+  return $board->{spaces}{$id};
 }
 
 =item C<< add_space(%param) >>
@@ -123,7 +134,7 @@ The spaces on a grid board are blessed into this class.  It acts like a
 L<Games::Board::Space> object, but directions are given as arrayrefs with x-
 and y-offsets.  For example, a knight's move might be represented as:
 
-  $board->space([1,0])->dir([2,1]);
+  $board->space('1 0')->dir([2,1]);
 
 =cut
 
@@ -133,15 +144,17 @@ use base qw(Games::Board::Space);
 sub dir_id {
   my ($self, $dir) = @_;
   return unless UNIVERSAL::isa($dir,'ARRAY');
+
+  my $pos = $self->board->id2index($self->id);
   
   my $newpos = [
-	$self->id->[0] + $dir->[0],
-	$self->id->[1] + $dir->[1]
+	$pos->[0] + $dir->[0],
+	$pos->[1] + $dir->[1]
   ];
 
   return if $newpos->[0] < 0 or $newpos->[1] < 0;
   return if $newpos->[0] >= $self->board->size->[0] or $newpos->[1] >= $self->board->size->[1];
-  return $newpos;
+  return $self->board->index2id($newpos);
 }
 
 =head1 TODO
