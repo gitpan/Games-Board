@@ -31,7 +31,7 @@ This module provides a base class for representing the pieces in a board game.
 use strict;
 use warnings;
 
-our $VERSION = sprintf "%d.%03d", q$Revision: 1.3 $ =~ /(\d+)/g;
+our $VERSION = sprintf "%d.%03d", q$Revision: 1.4 $ =~ /(\d+)/g;
 
 =head1 METHODS
 
@@ -44,8 +44,7 @@ This method constructs a new game piece and returns it.
 =cut
 
 sub new {
-  my $class = shift;
-  my %args = @_;
+  my ($class, %args) = @_;
 
   return unless $args{id};
   return unless UNIVERSAL::isa($args{board},'Games::Board');

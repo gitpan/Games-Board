@@ -7,6 +7,8 @@ use warnings;
 package Games::Board::Chess;
 use base qw(Games::Board::Grid);
 
+sub piececlass { 'Games::Board::Chess::Piece' }
+
 sub new { my $self = shift; $self->SUPER::new(size => 8) }
 
 sub id2index {
@@ -28,6 +30,9 @@ sub index2id {
   $id[0] =~ tr/[1-8]/[a-h]/;
   "$id[0]$id[1]"
 }
+
+package Games::Board::Chess::Piece;
+use base qw(Games::Board::Piece);
 
 package main;
 
@@ -62,6 +67,7 @@ is($board->space('h8')->dir_id([0,-1]),  'h7', "down a rank from h8");
 
 my $rook = $board->add_piece(id => 'KR');
 
+isa_ok($rook, 'Games::Board::Chess::Piece');
 isa_ok($rook, 'Games::Board::Piece');
 is($rook->current_space_id, undef, "rook isn't on the board");
 $rook->move(to => $board->space('b2'));

@@ -33,7 +33,7 @@ This module provides a base class for representing board games.
 use strict;
 use warnings;
 
-our $VERSION = sprintf "%d.%03d", q$Revision: 1.6 $ =~ /(\d+)/g;
+our $VERSION = sprintf "%d.%03d", q$Revision: 1.9 $ =~ /(\d+)/g;
 
 =head1 METHODS
 
@@ -70,19 +70,20 @@ sub space {
   return $board->{spaces}{$space};
 }
 
-=item C<< add_space(%param) >>
+=item C<< add_space(%args) >>
 
 This method adds a space to the board.  It is passed a hash of attributes to
-use in creating a Games::Board::Space object.
+use in creating a Games::Board::Space object.  The object is created by calling
+the constructor on the class whose name is returned by the C<spaceclass>
+method.  This class must inherit from Games::Board::Space.
 
 =cut 
 
 sub add_space {
-  my $board = shift;
+  my ($board, %args) = @_;
   my $space;
 
-  # TODO: this will be made to use default/given classes 
-  $space = Games::Board::Space->new(board => $board, @_);
+  $space = $board->spaceclass->new(board => $board, %args);
 
   return unless UNIVERSAL::isa($space,'Games::Board::Space');
 
@@ -94,19 +95,37 @@ sub add_space {
   }
 }
 
-=item C<< add_piece($piece) >>
+=item C<< piececlass >>
+
+This method returns the class used for pieces on this board.
+
+=cut
+
+sub piececlass { 'Games::Board::Piece' }
+
+=item C<< spaceclass >>
+
+This method returns the class used for spaces on this board.
+
+=cut
+
+sub spaceclass { 'Games::Board::Space' }
+
+=item C<< add_piece(%args) >>
 
 This method adds a piece to the board.  It is passed a hash of attributes to
-use in creating a Games::Board::Piece object.
+use in creating a Games::Board::Piece object.  The object is created by calling
+the constructor on the class whose name is returned by the C<piececlass>
+method.  This class must inherit from Games::Board::Piece.
 
 =cut 
 
 sub add_piece {
   my $board = shift;
+  my %args = @_;
   my $piece;
 
-  # TODO: this will be made to use default/given classes 
-  $piece = Games::Board::Piece->new(board => $board, @_);
+  $piece = $board->piececlass->new(board => $board, @_);
   $piece ||= shift;
 
   return unless UNIVERSAL::isa($piece,'Games::Board::Piece');
