@@ -5,7 +5,9 @@ META.yml
 lib/Games/Board.pm
 lib/Games/Board/Piece.pm
 lib/Games/Board/Space.pm
+lib/Games/Board/Grid.pm
 
 t/board.t
 t/chess.t
+t/chess-grid.t
 t/pod.t

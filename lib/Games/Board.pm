@@ -33,7 +33,7 @@ This module provides a base class for representing board games.
 use strict;
 use warnings;
 
-our $VERSION = sprintf "%d.%03d", q$Revision: 1.4 $ =~ /(\d+)/g;
+our $VERSION = sprintf "%d.%03d", q$Revision: 1.5 $ =~ /(\d+)/g;
 
 =head1 METHODS
 
@@ -103,20 +103,15 @@ use in creating a Games::Board::Piece object.
 
 sub add_piece {
   my $board = shift;
-  my $space;
+  my $piece;
 
   # TODO: this will be made to use default/given classes 
-  $space = Games::Board::Piece->new(board => $board, @_);
-  $space ||= shift;
+  $piece = Games::Board::Piece->new(board => $board, @_);
+  $piece ||= shift;
 
-  return unless UNIVERSAL::isa($space,'Games::Board::Piece');
+  return unless UNIVERSAL::isa($piece,'Games::Board::Piece');
 
-  if ($board->space($space->id)) {
-	carp "space '" . $space->id . "' already exists on board";
-  } else {
-	$board->{spaces}{$space->id} = $space;
-	return $space;
-  }
+  return $piece;
 }
 
 =back
