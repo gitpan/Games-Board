@@ -1,4 +1,5 @@
 MANIFEST			This list of files
+README
 CHANGES
 lib/Games/Board.pm
 lib/Games/Board/Grid.pm
@@ -10,4 +11,5 @@ t/chess-custom.t
 t/chess-grid.t
 t/chess.t
 t/pod.t
+t/pod-coverage.t
 META.yml                                 Module meta-data (added by MakeMaker)

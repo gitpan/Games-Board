@@ -12,17 +12,17 @@ Games::Board -- a parent class for board games
 
 =head1 SYNOPSIS
 
-  use Games::Board;
+	use Games::Board;
 
-  my $board = Games::Board->new;
+	my $board = Games::Board->new;
 
-  $board->add_space(
-  	id   => 'go',
-	dir  => { next => 'mediterranean', prev => 'boardwalk' },
-	cost => undef
-  );
+	$board->add_space(
+		id  => 'go',
+		dir => { next => 'mediterranean', prev => 'boardwalk' },
+		cost => undef
+	);
 
-  my $tophat = Games::Board::Piece->new(id => 'tophat')->move(to => 'go');
+	my $tophat = Games::Board::Piece->new(id => 'tophat')->move(to => 'go');
 
 =head1 DESCRIPTION
 
@@ -33,7 +33,7 @@ This module provides a base class for representing board games.
 use strict;
 use warnings;
 
-our $VERSION = sprintf "%d.%03d", q$Revision: 1.9 $ =~ /(\d+)/g;
+our $VERSION = sprintf "%d.%03d", q$Revision: 1.10 $ =~ /(\d+)/g;
 
 =head1 METHODS
 
@@ -47,13 +47,13 @@ no spaces or pieces on it.
 =cut
 
 sub new {
-  my $class = shift;
+	my $class = shift;
 
-  my $board = {
+	my $board = {
 	spaces => { }
-  };
+	};
 
-  bless $board => $class;
+	bless $board => $class;
 }
 
 =item C<< space($id) >>
@@ -64,10 +64,10 @@ exists, undef is returned.
 =cut
 
 sub space {
-  my $board = shift;
-  my $space = shift;
+	my $board = shift;
+	my $space = shift;
 
-  return $board->{spaces}{$space};
+	return $board->{spaces}{$space};
 }
 
 =item C<< add_space(%args) >>
@@ -80,19 +80,19 @@ method.  This class must inherit from Games::Board::Space.
 =cut 
 
 sub add_space {
-  my ($board, %args) = @_;
-  my $space;
+	my ($board, %args) = @_;
+	my $space;
 
-  $space = $board->spaceclass->new(board => $board, %args);
+	$space = $board->spaceclass->new(board => $board, %args);
 
-  return unless UNIVERSAL::isa($space,'Games::Board::Space');
+	return unless UNIVERSAL::isa($space,'Games::Board::Space');
 
-  if ($board->space($space->id)) {
+	if ($board->space($space->id)) {
 	carp "space '" . $space->id . "' already exists on board";
-  } else {
+	} else {
 	$board->{spaces}{$space->id} = $space;
 	return $space;
-  }
+	}
 }
 
 =item C<< piececlass >>
@@ -121,16 +121,16 @@ method.  This class must inherit from Games::Board::Piece.
 =cut 
 
 sub add_piece {
-  my $board = shift;
-  my %args = @_;
-  my $piece;
+	my $board = shift;
+	my %args = @_;
+	my $piece;
 
-  $piece = $board->piececlass->new(board => $board, @_);
-  $piece ||= shift;
+	$piece = $board->piececlass->new(board => $board, @_);
+	$piece ||= shift;
 
-  return unless UNIVERSAL::isa($piece,'Games::Board::Piece');
+	return unless UNIVERSAL::isa($piece,'Games::Board::Piece');
 
-  return $piece;
+	return $piece;
 }
 
 =back
