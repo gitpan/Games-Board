@@ -1,51 +1,14 @@
 use strict;
 use warnings;
-
 package Games::Board::Space;
+{
+  $Games::Board::Space::VERSION = '1.012';
+}
+# ABSTRACT: a parent class for spaces on game board
 
 use Carp;
 
-=head1 NAME
 
-Games::Board::Space -- a parent class for spaces on game board
-
-=head1 VERSION
-
- $Id: /my/cs/projects/board/trunk/lib/Games/Board/Space.pm 27799 2006-11-11T02:23:32.940873Z rjbs  $
-
-=cut
-
-our $VERSION = '1.011';
-
-=head1 SYNOPSIS
-
-  use Games::Board;
-
-  my $board = Games::Board->new;
-
-  $board->add_space(Games::Board::Space->new(
-  	id   => 'go',
-	dir  => { next => 'mediterranean', prev => 'boardwalk' },
-	cost => undef
-  ));
-
-  my $tophat = Games::Board::Piece->new(id => 'tophat')->move(to => 'go');
-
-=head1 DESCRIPTION
-
-This module provides a base class for representing the spaces on a game board.
-
-=cut
-
-=head1 METHODS
-
-=over
-
-=item C<< new >>
-
-This method constructs a new space and returns it.
-
-=cut
 
 sub new {
   my $class = shift;
@@ -66,11 +29,6 @@ sub new {
   bless $space => $class;
 }
 
-=item C<< id >>
-
-This method returns the id of the space.
-
-=cut
 
 sub id {
   my $space = shift;
@@ -78,57 +36,31 @@ sub id {
   return $space->{id};
 }
 
-=item C<< board >>
-
-This method returns board on which this space sits.
-
-=cut
 
 sub board {
   my $space = shift;
   $space->{board};
 }
 
-=item C<< dir_id($dir) >>
-
-This method returns the id of the space found in the given direction from this
-space.
-
-=cut
 
 sub dir_id {
   my ($space, $dir) = @_;
-  
+
   return $space->{dir}{$dir} if (ref $space->{dir} eq 'HASH');
 }
 
-=item CC<< dir($dir) >>
-
-This method returns the space found in the given direction from this space.
-
-=cut
 
 sub dir {
   my ($space, $dir) = @_;
   $space->board->space($space->dir_id($dir));
 }
 
-=item C<< contains($piece) >>
-
-This method returns a true value if the space contains the passed piece.
-
-=cut
 
 sub contains {
   my ($self, $piece) = @_;
   return 1 if grep { $_ eq $piece->id } @{$self->{contents}};
 }
 
-=item C<< receive($piece) >>
-
-This method will place the given piece onto this space.
-
-=cut
 
 sub receive {
   my ($self, $piece) = @_;
@@ -140,25 +72,86 @@ sub receive {
   push @{$self->{contents}}, $piece->id;
 }
 
-=back
+1;
 
-=head1 TODO
+__END__
 
-implement this dist!
+=pod
+
+=head1 NAME
+
+Games::Board::Space - a parent class for spaces on game board
+
+=head1 VERSION
+
+version 1.012
+
+=head1 SYNOPSIS
+
+  use Games::Board;
+
+  my $board = Games::Board->new;
+
+  $board->add_space(Games::Board::Space->new(
+  	id   => 'go',
+	dir  => { next => 'mediterranean', prev => 'boardwalk' },
+	cost => undef
+  ));
+
+  my $tophat = Games::Board::Piece->new(id => 'tophat')->move(to => 'go');
+
+=head1 DESCRIPTION
+
+This module provides a base class for representing the spaces on a game board.
+
+=head1 METHODS
+
+=head2 new
+
+This method constructs a new space and returns it.
+
+=head2 id
+
+This method returns the id of the space.
+
+=head2 board
+
+This method returns board on which this space sits.
+
+=head2 dir_id
+
+  my $id = $space->dir_id($dir);
+
+This method returns the id of the space found in the given direction from this
+space.
+
+=head2 dir
+
+  my $new_space = $space->dir($dir);
+
+This method returns the space found in the given direction from this space.
+
+=head2 contains
+
+  my $bool = $space->contains($piece);
+
+This method returns a true value if the space contains the passed piece.
+
+=head2 receive
+
+  $space->receive($piece);
+
+This method will place the given piece onto this space.
 
 =head1 AUTHOR
 
-Ricardo SIGNES E<lt>rjbs@cpan.orgE<gt>
+Ricardo SIGNES <rjbs@cpan.org>
 
-=head1 COPYRIGHT
+=head1 COPYRIGHT AND LICENSE
 
-Copyright 2003-2004 by Ricardo Signes E<lt>rjbs@cpan.orgE<gt>
+This software is copyright (c) 2003 by Ricardo SIGNES.
 
-This program is free software; you can redistribute it and/or modify it under
-the same terms as Perl itself.
-
-See http://www.perl.com/perl/misc/Artistic.html
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
-
-1;

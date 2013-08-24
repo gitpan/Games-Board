@@ -1,3 +1,13 @@
-README for Games-Board
 
-This module provides a base class for representing board games.
+
+This archive contains the distribution Games-Board,
+version 1.012:
+
+  a parent class for board games
+
+This software is copyright (c) 2003 by Ricardo SIGNES.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+
