@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package Games::Board::Space;
 {
-  $Games::Board::Space::VERSION = '1.012';
+  $Games::Board::Space::VERSION = '1.013';
 }
 # ABSTRACT: a parent class for spaces on game board
 
@@ -19,12 +19,12 @@ sub new {
     unless eval { $args{board}->isa('Games::Board') };
 
   my $space = {
-	id    => $args{id},
-	board => $args{board},
+    id    => $args{id},
+    board => $args{board},
   };
 
   $space->{dir} = $args{dir}
-	if $args{dir} and (ref $args{dir} eq 'HASH');
+    if $args{dir} and (ref $args{dir} eq 'HASH');
 
   bless $space => $class;
 }
@@ -84,7 +84,7 @@ Games::Board::Space - a parent class for spaces on game board
 
 =head1 VERSION
 
-version 1.012
+version 1.013
 
 =head1 SYNOPSIS
 
@@ -93,9 +93,9 @@ version 1.012
   my $board = Games::Board->new;
 
   $board->add_space(Games::Board::Space->new(
-  	id   => 'go',
-	dir  => { next => 'mediterranean', prev => 'boardwalk' },
-	cost => undef
+    id   => 'go',
+    dir  => { next => 'mediterranean', prev => 'boardwalk' },
+    cost => undef
   ));
 
   my $tophat = Games::Board::Piece->new(id => 'tophat')->move(to => 'go');

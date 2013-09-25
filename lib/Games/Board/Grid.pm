@@ -3,7 +3,7 @@ use warnings;
 
 package Games::Board::Grid;
 {
-  $Games::Board::Grid::VERSION = '1.012';
+  $Games::Board::Grid::VERSION = '1.013';
 }
 use parent qw(Games::Board);
 # ABSTRACT: a grid-shaped gameboard
@@ -31,10 +31,10 @@ sub init {
   $board->{spaces} = {};
 
   for my $x (0 .. ($board->{size}[0] - 1)) {
-	for my $y (0 .. ($board->{size}[1] - 1)) {
-	  my $id = $board->index2id([$x,$y]);
-	  $board->{spaces}{$id} = Games::Board::Grid::Space->new(id => $id, board => $board);
-	}
+  for my $y (0 .. ($board->{size}[1] - 1)) {
+    my $id = $board->index2id([$x,$y]);
+    $board->{spaces}{$id} = Games::Board::Grid::Space->new(id => $id, board => $board);
+  }
   }
 
   $board;
@@ -63,7 +63,7 @@ sub add_space { croak "spaces can't be added to grid board" }
 
 package Games::Board::Grid::Space;
 {
-  $Games::Board::Grid::Space::VERSION = '1.012';
+  $Games::Board::Grid::Space::VERSION = '1.013';
 }
 use parent qw(Games::Board::Space);
 
@@ -74,12 +74,14 @@ sub dir_id {
   my $pos = $self->board->id2index($self->id);
 
   my $newpos = [
-	$pos->[0] + $dir->[0],
-	$pos->[1] + $dir->[1]
+    $pos->[0] + $dir->[0],
+    $pos->[1] + $dir->[1]
   ];
 
   return if $newpos->[0] < 0 or $newpos->[1] < 0;
-  return if $newpos->[0] >= $self->board->size->[0] or $newpos->[1] >= $self->board->size->[1];
+  return
+    if $newpos->[0] >= $self->board->size->[0]
+    or $newpos->[1] >= $self->board->size->[1];
   return $self->board->index2id($newpos);
 }
 
@@ -95,7 +97,7 @@ Games::Board::Grid - a grid-shaped gameboard
 
 =head1 VERSION
 
-version 1.012
+version 1.013
 
 =head1 SYNOPSIS
 

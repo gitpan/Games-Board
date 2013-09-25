@@ -20,19 +20,19 @@ my %WriteMakefileArgs = (
   "LICENSE" => "perl",
   "NAME" => "Games::Board",
   "PREREQ_PM" => {
-    "Carp" => "0",
-    "parent" => "0",
-    "strict" => "0",
-    "warnings" => "0"
+    "Carp" => 0,
+    "parent" => 0,
+    "strict" => 0,
+    "warnings" => 0
   },
   "TEST_REQUIRES" => {
-    "File::Spec" => "0",
-    "IO::Handle" => "0",
-    "IPC::Open3" => "0",
+    "File::Spec" => 0,
+    "IO::Handle" => 0,
+    "IPC::Open3" => 0,
     "Test::More" => "0.96",
-    "base" => "0"
+    "base" => 0
   },
-  "VERSION" => "1.012",
+  "VERSION" => "1.013",
   "test" => {
     "TESTS" => "t/*.t"
   }

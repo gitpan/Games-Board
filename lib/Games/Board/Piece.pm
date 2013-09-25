@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package Games::Board::Piece;
 {
-  $Games::Board::Piece::VERSION = '1.012';
+  $Games::Board::Piece::VERSION = '1.013';
 }
 # ABSTRACT: a parent class for board game pieces
 
@@ -53,13 +53,13 @@ sub move {
   my $space;
 
   if ($how eq 'dir') {
-	return unless $piece->current_space;
-	return unless $space = $piece->current_space->dir($which);
+    return unless $piece->current_space;
+    return unless $space = $piece->current_space->dir($which);
   } elsif ($how eq 'to') {
-	return unless eval { $which->isa('Games::Board::Space') };
-	$space = $which;
+    return unless eval { $which->isa('Games::Board::Space') };
+    $space = $which;
   } else {
-	return;
+    return;
   }
 
   $space->receive($piece);
@@ -77,7 +77,7 @@ Games::Board::Piece - a parent class for board game pieces
 
 =head1 VERSION
 
-version 1.012
+version 1.013
 
 =head1 SYNOPSIS
 
@@ -86,9 +86,9 @@ version 1.012
   my $board = Games::Board->new;
 
   $board->add_space(
-  	id   => 'go',
-	dir  => { next => 'mediterranean', prev => 'boardwalk' },
-	cost => undef
+    id   => 'go',
+    dir  => { next => 'mediterranean', prev => 'boardwalk' },
+    cost => undef
   );
 
   my $tophat = Games::Board::Piece->new(id => 'tophat')->move(to => 'go');
